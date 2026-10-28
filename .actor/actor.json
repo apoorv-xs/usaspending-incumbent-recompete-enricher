@@ -1,7 +1,7 @@
 {
   "actorSpecification": 1,
   "name": "usaspending-incumbent-recompete-enricher",
-  "title": "USASpending GovCon Incumbent, Expiring Contract & Recompete Enricher",
+  "title": "USASpending GovCon Incumbent & Recompete Enricher",
   "description": "Extract expiring federal contracts, incumbent prime contractors (UEI + Legal Name), award ceilings, solicitation crosswalk IDs, and single-bid competition vulnerabilities from USAspending.gov (FPDS). Ultra-lean 128MB RAM harvester built for GovCon BD capture teams, Clay/n8n/Make lead enrichment, and SAM.gov recompete radar.",
   "version": "1.0.0",
   "buildTag": "latest",
