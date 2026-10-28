@@ -1,0 +1,76 @@
+{
+  "actorSpecification": 1,
+  "name": "usaspending-incumbent-recompete-enricher",
+  "title": "USASpending GovCon Incumbent, Expiring Contract & Recompete Enricher",
+  "description": "Extract expiring federal contracts, incumbent prime contractors (UEI + Legal Name), award ceilings, solicitation crosswalk IDs, and single-bid competition vulnerabilities from USAspending.gov (FPDS). Ultra-lean 128MB RAM harvester built for GovCon BD capture teams, Clay/n8n/Make lead enrichment, and SAM.gov recompete radar.",
+  "version": "1.0.0",
+  "buildTag": "latest",
+  "dockerfile": "../Dockerfile",
+  "input": "./input_schema.json",
+  "output": "./output_schema.json",
+  "minMemoryMbytes": 128,
+  "defaultMemoryMbytes": 128,
+  "maxMemoryMbytes": 256,
+  "pricingInfo": {
+    "pricingModel": "PAY_PER_EVENT",
+    "pricingPerEvent": {
+      "actorChargeEvents": {
+        "actor-start": {
+          "eventTitle": "Actor Start Initialization",
+          "eventDescription": "One-time initialization fee per Actor execution.",
+          "eventPriceUsd": 0.05
+        },
+        "incumbent-award-harvested": {
+          "eventTitle": "Validated Incumbent Contract & Recompete Record",
+          "eventDescription": "Charged per Pydantic-validated prime contract award matching your recompete expiration filter pushed to the dataset.",
+          "eventPriceUsd": 0.03
+        },
+        "recompete-vulnerability-enriched": {
+          "eventTitle": "FPDS Competition Vulnerability & Ceiling Enrichment",
+          "eventDescription": "Charged per contract enriched with secondary FPDS award details (number of offers received, single-bid vulnerability flag, extent competed, potential ceiling, and SAM.gov solicitation ID).",
+          "eventPriceUsd": 0.02
+        }
+      }
+    }
+  },
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "title": "GovCon Incumbent & Recompete Intelligence Dataset",
+      "views": {
+        "overview": {
+          "title": "Recompete & Incumbent Vulnerability Radar",
+          "transformation": {
+            "fields": [
+              "award_id",
+              "incumbent_name",
+              "incumbent_uei",
+              "parent_recipient_name",
+              "award_amount",
+              "potential_ceiling_amount",
+              "start_date",
+              "end_date",
+              "days_until_expiration",
+              "recompete_stage",
+              "single_bid_vulnerable",
+              "offers_received",
+              "extent_competed",
+              "set_aside_type",
+              "solicitation_identifier",
+              "awarding_agency",
+              "awarding_sub_agency",
+              "contracting_office_name",
+              "naics_code",
+              "psc_code",
+              "pop_state_code",
+              "source_url"
+            ]
+          },
+          "display": {
+            "component": "table"
+          }
+        }
+      }
+    }
+  }
+}

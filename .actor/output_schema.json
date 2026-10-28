@@ -1,0 +1,20 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "USASpending GovCon Incumbent & Recompete Intelligence Output",
+  "description": "Validated federal prime contract awards with recompete countdowns, incumbent UEIs, and FPDS single-bid competition vulnerability metrics.",
+  "type": "object",
+  "properties": {
+    "datasetItems": {
+      "type": "string",
+      "title": "Incumbent & Recompete Dataset (Table / JSON)",
+      "description": "Browse or download all enriched incumbent contract records from this run.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    },
+    "runTelemetry": {
+      "type": "string",
+      "title": "Run Telemetry & Memory Audit (KV Store)",
+      "description": "Execution speed, recompete filter statistics, PPE counts, and live RSS memory footprint.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/keys/RUN_TELEMETRY"
+    }
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "title": "USASpending GovCon Incumbent & Recompete Enricher Input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "searchKeywords": {
+      "title": "Search Keywords / Scope Filter",
+      "type": "string",
+      "description": "Keywords, technical capabilities, or solicitation/contract identifiers (e.g., 'zero trust', 'cloud migration', 'cybersecurity', 'DevSecOps'). Leave blank to filter purely by NAICS/Agency.",
+      "editor": "textfield",
+      "default": "cybersecurity",
+      "prefill": "cybersecurity"
+    },
+    "naicsCodes": {
+      "title": "NAICS Industry Codes",
+      "type": "array",
+      "description": "6-digit NAICS codes to target (e.g., 541511 Custom Computer Programming, 541512 Computer Systems Design, 541519 Other Computer Related Services).",
+      "editor": "stringList",
+      "default": [
+        "541511",
+        "541512"
+      ],
+      "maxItems": 50
+    },
+    "pscCodes": {
+      "title": "Product & Service Codes (PSC)",
+      "type": "array",
+      "description": "Optional 4-character Federal PSC codes (e.g., 'D302' IT Systems Development, 'D310' Cyber Security and Data Backup).",
+      "editor": "stringList",
+      "default": [],
+      "maxItems": 50
+    },
+    "recipientSearchText": {
+      "title": "Target Incumbent Contractor Name or UEI",
+      "type": "string",
+      "description": "Optional: Filter awards held by a specific incumbent contractor name or 12-character SAM UEI (e.g., 'Booz Allen', 'Leidos', 'J8K2L9M4N1P2').",
+      "editor": "textfield"
+    },
+    "awardingAgencyName": {
+      "title": "Awarding Toptier Agency Name",
+      "type": "string",
+      "description": "Optional: Filter by awarding toptier agency name (e.g., 'Department of Defense', 'Department of Homeland Security', 'Department of Veterans Affairs').",
+      "editor": "textfield"
+    },
+    "awardIds": {
+      "title": "Specific Contract / Award IDs (PIID Crosswalk)",
+      "type": "array",
+      "description": "Optional list of specific contract PIIDs (e.g., 'W911NF26C0001') to cross-walk from SAM.gov notices.",
+      "editor": "stringList",
+      "default": [],
+      "maxItems": 100
+    },
+    "awardTypeGroup": {
+      "title": "Contract Vehicle Type",
+      "type": "string",
+      "description": "Select Definitive Contracts (A, B, C, D), Indefinite Delivery Vehicles / IDIQs (IDVs), or both.",
+      "editor": "select",
+      "default": "CONTRACTS_ONLY",
+      "enum": [
+        "CONTRACTS_ONLY",
+        "IDVS_ONLY",
+        "CONTRACTS_AND_IDVS"
+      ],
+      "enumTitles": [
+        "Definitive Contracts & Purchase Orders (A, B, C, D)",
+        "Indefinite Delivery Vehicles / IDIQs / GWACs (IDV_A..IDV_E)",
+        "All Contracts + IDVs Combined"
+      ]
+    },
+    "expiringWithinDays": {
+      "title": "Recompete Radar: Expiring Within (Days)",
+      "type": "integer",
+      "description": "Client-side Period-of-Performance End Date filter applied BEFORE charging PPE. Set to e.g. 180 or 365 to only harvest contracts expiring within N days. Set to 0 to disable expiration filtering and harvest all matching awards.",
+      "default": 365,
+      "minimum": 0,
+      "maximum": 1825
+    },
+    "includeRecentlyExpiredDays": {
+      "title": "Include Recently Expired Contracts (Bridge / Transition Window Days)",
+      "type": "integer",
+      "description": "When Expiring Within (Days) > 0, also include contracts whose End Date passed within the last N days (captures delayed recompetes and bridge extensions).",
+      "default": 60,
+      "minimum": 0,
+      "maximum": 365
+    },
+    "minAwardAmount": {
+      "title": "Minimum Award Amount (USD)",
+      "type": "integer",
+      "description": "Filter out micro-purchases below this obligated dollar threshold (e.g., 100000 for $100k+ contracts).",
+      "default": 100000,
+      "minimum": 0
+    },
+    "maxRecords": {
+      "title": "Maximum Contracts to Harvest (PPE Budget Cap)",
+      "type": "integer",
+      "description": "Hard ceiling on validated contract records pushed to dataset ($0.03 per record).",
+      "default": 100,
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "enrichCompetitionVulnerability": {
+      "title": "Enrich FPDS Competition Vulnerability & Solicitation ID (+$0.02/record)",
+      "type": "boolean",
+      "description": "When enabled, queries `/api/v2/awards/{generated_internal_id}/` for each matched contract to extract Number of Offers Received, Single-Bid Vulnerability flag, Extent Competed, Set-Aside Type, Potential Award Ceiling, Contracting Office, and SAM.gov Solicitation ID.",
+      "default": true
+    },
+    "proxyConfiguration": {
+      "title": "Proxy Configuration",
+      "type": "object",
+      "description": "Optional proxy settings (USASpending API is public and normally requires no proxy).",
+      "editor": "proxy",
+      "default": {
+        "useApifyProxy": false
+      }
+    }
+  },
+  "required": [
+    "maxRecords"
+  ]
+}
